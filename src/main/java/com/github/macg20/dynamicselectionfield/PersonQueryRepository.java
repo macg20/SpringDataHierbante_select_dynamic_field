@@ -25,7 +25,7 @@ class PersonQueryRepository {
         CriteriaQuery<Tuple> query = builder.createQuery(Tuple.class);
         Root<Person> root = query.from(Person.class);
 
-        List<Selection<?>> selections =fields.stream().map(e-> root.get(e)).collect(Collectors.toList());
+        List<Selection<?>> selections =fields.stream().map(root::get).collect(Collectors.toList());
 
         query = query.multiselect(selections);
       return entityManager.createQuery(query).getSingleResult();

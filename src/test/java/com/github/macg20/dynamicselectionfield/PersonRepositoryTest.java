@@ -8,7 +8,6 @@ import org.junit.jupiter.api.extension.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.Tuple;
 import javax.persistence.metamodel.SingularAttribute;
@@ -72,11 +71,11 @@ class PersonRepositoryTest {
         Assertions.assertThat(result.getElements()).hasSize(fieldsSize);
 
         Set<String> resultAttributes = result.getElements()
-                .stream().map(e-> ((SingularAttributePath)e).getAttribute().getName())
+                .stream().map(e -> ((SingularAttributePath) e).getAttribute().getName())
                 .collect(Collectors.toSet());
 
-        Assertions.assertThat(resultAttributes).hasSize(fieldsSize);
-        Assertions.assertThat(resultAttributes).isEqualTo(fields.getFields());
+        Assertions.assertThat(resultAttributes).hasSize(fieldsSize)
+                .isEqualTo(fields.getFields());
 
     }
 
@@ -97,7 +96,7 @@ class PersonRepositoryTest {
         }
     }
 
-   public static class PersonFieldsTemplate implements TestTemplateInvocationContextProvider {
+    public static class PersonFieldsTemplate implements TestTemplateInvocationContextProvider {
 
         @Override
         public boolean supportsTestTemplate(ExtensionContext extensionContext) {
@@ -107,10 +106,10 @@ class PersonRepositoryTest {
         @Override
         public Stream<TestTemplateInvocationContext> provideTestTemplateInvocationContexts(ExtensionContext extensionContext) {
             return Stream.of(
-                    invocationContext (new PersonFields(oneField())),
-                    invocationContext (new PersonFields(twoFields())),
-                    invocationContext (new PersonFields(threeFields())),
-                    invocationContext (new PersonFields(fourFields()))
+                    invocationContext(new PersonFields(oneField())),
+                    invocationContext(new PersonFields(twoFields())),
+                    invocationContext(new PersonFields(threeFields())),
+                    invocationContext(new PersonFields(fourFields()))
             );
         }
 
