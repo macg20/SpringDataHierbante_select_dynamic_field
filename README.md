@@ -1,2 +1,2 @@
-# SpringDataHierbante_select_dynamic_field
-Spring Data/Hibernate - dynamic selection field in query
+# dynamic-selection-field-hibernate-spring
+Spring Data/Hibernate - dynamic selection field in query.
