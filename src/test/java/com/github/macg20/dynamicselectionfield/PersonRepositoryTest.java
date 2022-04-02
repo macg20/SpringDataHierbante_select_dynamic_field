@@ -2,7 +2,9 @@ package com.github.macg20.dynamicselectionfield;
 
 import org.assertj.core.api.Assertions;
 import org.hibernate.query.criteria.internal.path.SingularAttributePath;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestTemplate;
 import org.junit.jupiter.api.extension.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,7 @@ import static com.github.macg20.dynamicselectionfield.PersonTestData.createPerso
 
 @SpringBootTest
 @ExtendWith({SpringExtension.class})
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class PersonRepositoryTest {
 
     private static final int SIZE_ONE = 1;
@@ -34,11 +37,14 @@ class PersonRepositoryTest {
     @Autowired
     PersonRepository personRepository;
 
-    @Test
-    void should_return_one_row_with_only_first_name() {
-        //given
+    @BeforeAll
+    void initRepository() {
         Person person = createPerson();
         personRepository.save(person);
+    }
+
+    @Test
+    void should_return_one_row_with_only_first_name() {
 
         //when
         Tuple result = personQueryRepository.findPersonByField(Set.of(FIRST_NAME_ATTRIBUTE));
@@ -59,8 +65,6 @@ class PersonRepositoryTest {
     @ExtendWith({PersonFieldsTemplate.class})
     void should_return_tuple_with_specific_fields(PersonFields fields) {
         //given
-        Person person = createPerson();
-        personRepository.save(person);
         int fieldsSize = fields.getFields().size();
 
         // when
